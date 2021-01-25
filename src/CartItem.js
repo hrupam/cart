@@ -1,30 +1,33 @@
 import React from "react";
 
 class CartItem extends React.Component {
-  increaseQuantity = () => {
-    // setState method 1 - when we dont need previous state
-    // this.setState({ qty: this.state.qty + 1 });
-    // console.log(this.state);
+  // INITIAL EVENT HANDLINGS
 
-    // setState method 2 - when we require previous state
-    this.setState((prevState) => {
-      return {
-        qty: prevState.qty + 1,
-      };
-    });
-  };
-  decreaseQuantity = () => {
-    this.setState(
-      (prevState) => {
-        if (prevState.qty === 1) return {};
-        else
-          return {
-            qty: prevState.qty - 1,
-          };
-      },
-      () => console.log(this.state) //callback executed when state updation is finished
-    );
-  };
+  // increaseQuantity = () => {
+  //   // setState method 1 - when we dont need previous state
+  //   // this.setState({ qty: this.state.qty + 1 });
+  //   // console.log(this.state);
+
+  //   // setState method 2 - when we require previous state
+  //   this.setState((prevState) => {
+  //     return {
+  //       qty: prevState.qty + 1,
+  //     };
+  //   });
+  // };
+
+  // decreaseQuantity = () => {
+  //   this.setState(
+  //     (prevState) => {
+  //       if (prevState.qty === 1) return {};
+  //       else
+  //         return {
+  //           qty: prevState.qty - 1,
+  //         };
+  //     },
+  //     () => console.log(this.state) //callback executed when state updation is finished
+  //   );
+  // };
   render() {
     // console.log(this.props.product);
     const { price, title, qty, img, img_alt } = this.props.product;
@@ -43,7 +46,7 @@ class CartItem extends React.Component {
               alt="increase"
               className="action-icons"
               src="https://t4.ftcdn.net/jpg/01/07/62/07/240_F_107620769_UwNVSoXnKS4VNcOKoZjPohlEPn83oE38.jpg"
-              onClick={this.increaseQuantity}
+              onClick={() => this.props.onIncreaseQuantity(this.props.product)}
             />
             <img
               alt="decrease"
