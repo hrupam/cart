@@ -8,6 +8,7 @@ class CartItem extends React.Component {
       title: "Phone",
       qty: 1,
       img: "",
+      img_alt: "",
     };
     // this.increaseQuantity = this.increaseQuantity.bind(this);
   }
@@ -40,7 +41,11 @@ class CartItem extends React.Component {
     return (
       <div className="cart-item">
         <div className="left-block">
-          <img style={styles.image} src={this.state.img} />
+          <img
+            style={styles.image}
+            src={this.state.img}
+            alt={this.state.img_alt}
+          />
         </div>
         <div className="right-block">
           <div style={{ fontSize: 25 }}>Title: {title}</div>
