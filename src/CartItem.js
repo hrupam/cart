@@ -1,17 +1,6 @@
 import React from "react";
 
 class CartItem extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      price: 999,
-      title: "Phone",
-      qty: 1,
-      img: "",
-      img_alt: "",
-    };
-    // this.increaseQuantity = this.increaseQuantity.bind(this);
-  }
   increaseQuantity = () => {
     // setState method 1 - when we dont need previous state
     // this.setState({ qty: this.state.qty + 1 });
@@ -37,15 +26,12 @@ class CartItem extends React.Component {
     );
   };
   render() {
-    const { price, title, qty } = this.state;
+    // console.log(this.props.product);
+    const { price, title, qty, img, img_alt } = this.props.product;
     return (
       <div className="cart-item">
         <div className="left-block">
-          <img
-            style={styles.image}
-            src={this.state.img}
-            alt={this.state.img_alt}
-          />
+          <img style={styles.image} src={img} alt={img_alt} />
         </div>
         <div className="right-block">
           <div style={{ fontSize: 25 }}>Title: {title}</div>
