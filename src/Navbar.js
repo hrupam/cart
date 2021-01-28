@@ -8,6 +8,9 @@ const Navbar = (props) => {
         />
         {props.count > 0 && <div className="cart-count">{props.count}</div>}
       </div>
+      <div className="add-product">
+        <button onClick={() => props.onAddProduct()}>Add a Product</button>
+      </div>
     </div>
   );
 };

@@ -48,6 +48,25 @@ class App extends React.Component {
     });
     return price;
   };
+  handleAddProduct = () => {
+    firebase
+      .firestore()
+      .collection("products")
+      .add({
+        img: "",
+        img_alt: "",
+        title: "Washing Machine",
+        price: "34999",
+        qty: 0,
+      })
+      .then((docRef) => {
+        console.log(docRef);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   componentDidMount() {
     // console.log("COMPONENT MOUNTED");
     firebase
@@ -68,14 +87,17 @@ class App extends React.Component {
     // console.log("RENDER CALLED");
     return (
       <div className="App">
-        <Navbar count={this.countQuantity()} />
+        <Navbar
+          count={this.countQuantity()}
+          onAddProduct={this.handleAddProduct}
+        />
         <Cart
           products={this.state.products}
           onIncreaseQuantity={this.handleIncreaseQuantity}
           onDecreaseQuantity={this.handleDecreaseQuantity}
           onDeleteProduct={this.handleDeleteProduct}
         />
-        {this.state.loading && <h1>Loading Products...</h1>}
+        {this.state.loading && <h1>Loading Products...Please wait!</h1>}
         <Footer price={this.calcPrice()} />
       </div>
     );
