@@ -2,13 +2,18 @@ import React from "react";
 import Cart from "./Cart";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import products from "./products";
+// import products from "./products";
+import firebase from "firebase/app";
+import "firebase/firestore";
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      products: products,
+      // products: products,
+      products: [], //this will now get data from fiebase
+      loading: true,
     };
+    // console.log("CONSTRUCTOR CALLED");
   }
   handleIncreaseQuantity = (product) => {
     const { products } = this.state;
@@ -33,7 +38,6 @@ class App extends React.Component {
     products.forEach((product) => {
       count += product.qty;
     });
-    console.log(products);
     return count;
   };
   calcPrice = () => {
@@ -44,7 +48,24 @@ class App extends React.Component {
     });
     return price;
   };
+  componentDidMount() {
+    // console.log("COMPONENT MOUNTED");
+    firebase
+      .firestore()
+      .collection("products")
+      .get()
+      .then((snapshot) => {
+        const products = snapshot.docs.map((doc) => {
+          // console.log(doc.data());
+          const data = doc.data();
+          data.id = doc.id;
+          return data;
+        });
+        this.setState({ products: products, loading: false });
+      });
+  }
   render() {
+    // console.log("RENDER CALLED");
     return (
       <div className="App">
         <Navbar count={this.countQuantity()} />
@@ -54,6 +75,7 @@ class App extends React.Component {
           onDecreaseQuantity={this.handleDecreaseQuantity}
           onDeleteProduct={this.handleDeleteProduct}
         />
+        {this.state.loading && <h1>Loading Products...</h1>}
         <Footer price={this.calcPrice()} />
       </div>
     );
