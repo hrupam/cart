@@ -2,7 +2,6 @@ import React from "react";
 import Cart from "./Cart";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-// import products from "./products";
 import firebase from "firebase/app";
 import "firebase/firestore";
 class App extends React.Component {
@@ -16,16 +15,32 @@ class App extends React.Component {
     // console.log("CONSTRUCTOR CALLED");
   }
   handleIncreaseQuantity = (product) => {
-    const { products } = this.state;
-    const index = products.indexOf(product);
-    products[index].qty += 1;
-    this.setState({ products: products });
+    const docRef = firebase.firestore().collection("products").doc(product.id);
+    docRef
+      .update({
+        qty: product.qty + 1,
+      })
+      .then(() => console.log("Product updated"))
+      .catch((error) => console.log(error));
+    this.getProductsAndSetState();
   };
   handleDecreaseQuantity = (product) => {
     const { products } = this.state;
     const index = products.indexOf(product);
-    products[index].qty !== 0 && (products[index].qty -= 1);
-    this.setState({ products: products });
+    if (products[index].qty === 0) return;
+    else {
+      const docRef = firebase
+        .firestore()
+        .collection("products")
+        .doc(product.id);
+      docRef
+        .update({
+          qty: product.qty - 1,
+        })
+        .then(() => console.log("Product updated"))
+        .catch((error) => console.log(error));
+      this.getProductsAndSetState();
+    }
   };
   handleDeleteProduct = (id) => {
     const { products } = this.state;
@@ -66,9 +81,7 @@ class App extends React.Component {
         console.log(error);
       });
   };
-
-  componentDidMount() {
-    // console.log("COMPONENT MOUNTED");
+  getProductsAndSetState() {
     firebase
       .firestore()
       .collection("products")
@@ -82,6 +95,12 @@ class App extends React.Component {
         });
         this.setState({ products: products, loading: false });
       });
+  }
+
+  componentDidMount() {
+    // console.log("COMPONENT MOUNTED");
+    //componentDidMount method is called after 1st render
+    this.getProductsAndSetState();
   }
   render() {
     // console.log("RENDER CALLED");
