@@ -43,9 +43,15 @@ class App extends React.Component {
     }
   };
   handleDeleteProduct = (id) => {
-    const { products } = this.state;
-    const items = products.filter((product) => product.id !== id);
-    this.setState({ products: items });
+    // const { products } = this.state;
+    // const items = products.filter((product) => product.id !== id);
+    // this.setState({ products: items });
+    const docRef = firebase.firestore().collection("products").doc(id);
+    docRef
+      .delete()
+      .then(() => console.log("prouct deleted"))
+      .catch((error) => console.log(error));
+    this.getProductsAndSetState();
   };
   countQuantity = () => {
     let count = 0;
@@ -68,8 +74,9 @@ class App extends React.Component {
       .firestore()
       .collection("products")
       .add({
-        img: "",
-        img_alt: "",
+        img:
+          "https://www.lg.com/in/images/washing-machines/md07512155/gallery/FHT1065HNL-Washing-Machines-Right-View-D-06.jpg",
+        img_alt: "washing machine",
         title: "Washing Machine",
         price: "34999",
         qty: 0,
@@ -80,13 +87,14 @@ class App extends React.Component {
       .catch((error) => {
         console.log(error);
       });
+    this.getProductsAndSetState();
   };
   getProductsAndSetState() {
     firebase
       .firestore()
       .collection("products")
-      .get()
-      .then((snapshot) => {
+      .orderBy("price", "desc")
+      .onSnapshot((snapshot) => {
         const products = snapshot.docs.map((doc) => {
           // console.log(doc.data());
           const data = doc.data();

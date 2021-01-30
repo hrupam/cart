@@ -1,5 +1,5 @@
 const CartItem = (props) => {
-  const { price, title, qty, img, img_alt } = props.product;
+  const { price, title, qty, img, img_alt, id } = props.product;
   return (
     <div className="cart-item">
       <div className="left-block">
@@ -27,7 +27,7 @@ const CartItem = (props) => {
             alt="delete"
             className="action-icons"
             src="https://t4.ftcdn.net/jpg/01/90/89/15/240_F_190891550_N7uKp2aHE3mOc20dmtDytj7atgvbhdOu.jpg"
-            onClick={() => props.onDeleteProduct(props.product.id)}
+            onClick={() => props.onDeleteProduct(id)}
           />
         </div>
       </div>
