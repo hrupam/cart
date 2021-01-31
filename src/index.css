@@ -39,6 +39,9 @@ h1 {
   margin-right: 10px;
   cursor: pointer;
 }
+.cart-container {
+  margin-bottom: 50px;
+}
 .cart {
   display: flex;
   flex-direction: row;

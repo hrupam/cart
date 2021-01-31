@@ -49,7 +49,7 @@ class App extends React.Component {
     const docRef = firebase.firestore().collection("products").doc(id);
     docRef
       .delete()
-      .then(() => console.log("prouct deleted"))
+      .then(() => console.log("product deleted"))
       .catch((error) => console.log(error));
     this.getProductsAndSetState();
   };
